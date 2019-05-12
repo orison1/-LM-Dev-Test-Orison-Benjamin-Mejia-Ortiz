@@ -1,10 +1,18 @@
 package com.prueba.model.entity;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -12,11 +20,19 @@ import lombok.Data;
 @Data
 public class Account {
 	@Id
-	@Column(name = "acc_id_cliente")		
+	@Column(name = "acc_code")		
 	private String code;
 	
-	@Column(name="pro_product_type")
-	private String proProduct;
+	@Column(name = "acc_id_cliente")		
+	private String codeCliente;
+	
+	@Column(name="acc_id_produc")     
+	private Integer idProducto;     
+	
+	@ManyToOne(cascade = CascadeType.ALL)     
+	@JoinColumn(name = "acc_id_produc", referencedColumnName = "pro_code", insertable = false, updatable = false)     
+	@JsonIgnore     
+	private Product producto;
 	
 	@Column(name="acc_fecha_ingreso")
 	private Timestamp fechaIngreso;
@@ -41,4 +57,8 @@ public class Account {
 	
 	@Column(name="acc_interes_amount")
 	private Double interesAmount;
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="tra_id_account")
+	private Set<Transaction> traDetails;
 }

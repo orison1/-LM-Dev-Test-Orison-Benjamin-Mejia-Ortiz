@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Entity(name = "log_control")
@@ -23,8 +21,6 @@ public class Login {
 	@ManyToOne
 	@JoinColumn(name = "cli_code")
 	private Cliente cliCode;
-	
-	//, referencedColumnName = "cli_code", insertable = false, updatable = false) @JsonIgnore
 	
 	
 }

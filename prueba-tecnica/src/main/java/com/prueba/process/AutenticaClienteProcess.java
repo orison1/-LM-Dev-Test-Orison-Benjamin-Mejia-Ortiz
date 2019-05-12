@@ -50,7 +50,7 @@ public class AutenticaClienteProcess {
 				password = shaProcess.getSha512(request.getPass(),request.getUser());
 				
 				if(auntCliente.getCode().equals(request.getUser()) && auntCliente.getPass().equals(password)) {
-					response.setTokenSession(encript.EncryptJWT(request, inetAddress.getHostName()));
+					response.setTokenSession(encript.EncryptJWT(request, inetAddress.getHostAddress()));
 					return new ResponseEntity<>(response,HttpStatus.OK);
 				}else {
 					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -61,8 +61,7 @@ public class AutenticaClienteProcess {
 			log.info("Error en Cliente" + e.getMessage());
 			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		//return new ResponseEntity<>(HttpStatus.OK);
-		//return new ResponseEntity<>(auntProcess.process(request), HttpStatus.OK);
+	
 	}
 		
 }

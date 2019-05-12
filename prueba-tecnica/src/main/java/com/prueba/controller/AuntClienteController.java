@@ -12,7 +12,7 @@ import com.prueba.pojo.auntetication.response.AuntResponse;
 import com.prueba.process.AutenticaClienteProcess;
 
 @RestController
-@RequestMapping("/aunt")
+@RequestMapping("/lifebank")
 public class AuntClienteController {
 
 	private AutenticaClienteProcess auntProcess;
