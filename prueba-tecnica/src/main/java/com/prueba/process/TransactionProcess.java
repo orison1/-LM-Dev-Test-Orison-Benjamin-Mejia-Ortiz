@@ -55,7 +55,7 @@ public class TransactionProcess {
 		
 		//llamada a funcion transforma fecha
 		start = StringToDate(startDate);
-		end = StringToDate(startDate);
+		end = StringToDate(endDate);
 		traList = traRepo.getInfo(idAccount, start, end);
 		
 		if(accountListResponse == null || accountListResponse.isEmpty()) {
@@ -80,10 +80,6 @@ public class TransactionProcess {
 		
 		try {
 			localdate = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("yyyy-MM-dd").withLocale(Locale.ENGLISH));
-//			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
-//			LocalFate date = sdf1.parse(fecha);
-//			response = new java.sql.Date(date.getTime());
-//				
 		} catch (Exception e) {
 			// TODO: handle exception
 		}  
