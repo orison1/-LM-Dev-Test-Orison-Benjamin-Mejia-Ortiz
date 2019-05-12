@@ -28,7 +28,7 @@ public class EncriptProcess {
 					"P8IJ9OgAwnB/SR/QYxQWDF5Vod3elP3MEHEbq2fcukc=",
 					"token-lifebank",
 					"LifeMiles",
-					Long.parseLong("5000000") //1800000
+					Long.parseLong("1800000") 
 					);
 			sch = jwt.generate();
 			

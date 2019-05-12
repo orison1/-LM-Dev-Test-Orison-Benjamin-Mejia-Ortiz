@@ -25,6 +25,12 @@ public class Transaction {
 	@Column(name = "tra_date_trans")		
 	private Timestamp tranDate;
 	
+	@Column(name = "tra_amount")		
+	private Double tranAmount;
+	
+	@Column(name = "tra_descrip_transac")		
+	private String tranDescription;
+	
 	@Column(name="tra_id_account")     
 	private String idAccount;
 	

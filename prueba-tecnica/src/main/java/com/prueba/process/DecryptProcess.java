@@ -14,13 +14,14 @@ public class DecryptProcess {
 		
 		log.info("Descifrando sch DecryptProcess");
 		ArrayList<String> jwtDecript = new ArrayList<String>(); 
-		JWT jwt = new JWT("P8IJ9OgAwnB/SR/QYxQWDF5Vod3elP3MEHEbq2fcukc=");
-		Claims claims = jwt.extract(sch);
 		
-		jwtDecript.add(claims.get("idUser").toString());
-		jwtDecript.add(claims.get("expiration-datetime").toString());
-		jwtDecript.add(claims.get("ipAddress").toString());
-		
+			JWT jwt = new JWT("P8IJ9OgAwnB/SR/QYxQWDF5Vod3elP3MEHEbq2fcukc=");
+			Claims claims = jwt.extract(sch);
+			
+			jwtDecript.add(claims.get("idUser").toString());
+			jwtDecript.add(claims.get("expiration-datetime").toString());
+			jwtDecript.add(claims.get("ipAddress").toString());
+				
 		return jwtDecript;
 	}
 }

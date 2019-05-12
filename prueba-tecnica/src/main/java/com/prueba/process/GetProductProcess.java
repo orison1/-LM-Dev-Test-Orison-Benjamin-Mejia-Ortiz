@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.prueba.model.PruebaProperties.accounType;
 import com.prueba.model.entity.Account;
 import com.prueba.model.repository.GetProductClienteRepository;
-import com.prueba.pojo.product.request.ProductRequest;
 import com.prueba.pojo.product.response.Accounts;
 import com.prueba.pojo.product.response.Ahorro;
 import com.prueba.pojo.product.response.CreditCard;
@@ -44,41 +43,50 @@ public class GetProductProcess {
 		DecryptProcess decript = new DecryptProcess(); 
 		ProductResponse response = new ProductResponse();
 		
-		
-		log.info("descifrando sch");
-		cuenta = decript.Decrypt(sch);
-		
-		log.info("Obteniendo info de productos del cliente");
-		accountListResponse = productClienteRepo.getInfo(cuenta.get(0));
-		
-		if(accountListResponse == null || accountListResponse.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
-		}else {
-			for(Account accountList : accountListResponse) {
-				if(accountList.getIdProducto() == 1) {//si es 1 es cuenta de ahorro
-					ahorro = new Ahorro();
-					ahorro.setId(accountList.getIdProducto().toString());
-					ahorro.setName(accounType.getPersonal());
-					ahorrotListResponse.add(ahorro);
-				}else if(accountList.getIdProducto() == 2) {//Tarjeta de credito
-					creditCard = new CreditCard();
-					creditCard.setId(accountList.getIdProducto().toString());
-					creditCard.setName(accounType.getCard());
-					credittListResponse.add(creditCard);
-				}else if(accountList.getIdProducto() == 3) {//Prestamo
-					prestamo = new Prestamo();
-					prestamo.setId(accountList.getIdProducto().toString());
-					prestamo.setName(accounType.getLoan());
-					PrestamoListResponse.add(prestamo);
-				}
-				
+		if(!(sch.isEmpty())) {
+			
+			try {
+				log.info("descifrando sch");
+				cuenta = decript.Decrypt(sch);
+			} catch (Exception e) {
+				log.info("El token a expirado:" + e.getMessage());
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
-			
-			response = validaListas(ahorrotListResponse,credittListResponse,PrestamoListResponse);
-			
-			return new ResponseEntity<>(response,HttpStatus.OK);
-		}
+				log.info("Obteniendo info de productos del cliente");
+				accountListResponse = productClienteRepo.getInfo(cuenta.get(0));
+				
+				if(accountListResponse == null || accountListResponse.isEmpty()) {
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
+				}else {
+					for(Account accountList : accountListResponse) {
+						if(accountList.getIdProducto() == 1) {//si es 1 es cuenta de ahorro
+							ahorro = new Ahorro();
+							ahorro.setId(accountList.getIdProducto().toString());
+							ahorro.setName(accounType.getPersonal());
+							ahorrotListResponse.add(ahorro);
+						}else if(accountList.getIdProducto() == 2) {//Tarjeta de credito
+							creditCard = new CreditCard();
+							creditCard.setId(accountList.getIdProducto().toString());
+							creditCard.setName(accounType.getCard());
+							credittListResponse.add(creditCard);
+						}else if(accountList.getIdProducto() == 3) {//Prestamo
+							prestamo = new Prestamo();
+							prestamo.setId(accountList.getIdProducto().toString());
+							prestamo.setName(accounType.getLoan());
+							PrestamoListResponse.add(prestamo);
+						}
+						
+					}
+					
+					response = validaListas(ahorrotListResponse,credittListResponse,PrestamoListResponse);
+					
+					return new ResponseEntity<>(response,HttpStatus.OK);
+				}
 		
+		}else {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+				
 	} 
 	
 	public ProductResponse validaListas(List<Ahorro> ahorrotListResponse, List<CreditCard> credittListResponse,List<Prestamo> PrestamoListResponse) {
